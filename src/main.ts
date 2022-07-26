@@ -1,9 +1,10 @@
 // import RLP from 'rlp';
 import { SecureTrie, LevelDB } from '@ethereumjs/trie'
+import { Level } from 'level'
 // import { Account, bufferToHex } from '@ethereumjs/util'
 // import RLP from 'rlp'
 
-const trie = new SecureTrie({ db: new LevelDB() })
+const trie = new SecureTrie({ db: new LevelDB(new Level('MY_TRIE_DB_LOCATION')) })
 
 export async function main() {
   await trie.put(Buffer.from('test'), Buffer.from('one'))
