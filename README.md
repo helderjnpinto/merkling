@@ -1,3 +1,17 @@
+# Run with watch
+
+- Terminal 1:
+
+```
+yarn build:watch
+```
+
+- Terminal 2:
+
+```
+find src -iname '*.ts' | entr -cnr yarn start
+```
+
 # node-typescript-boilerplate
 
 [![Sponsor][sponsor-badge]][sponsor]

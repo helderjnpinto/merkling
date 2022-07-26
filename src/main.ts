@@ -1,32 +1,16 @@
-/**
- * Some predefined delay values (in milliseconds).
- */
-export enum Delays {
-  Short = 500,
-  Medium = 2000,
-  Long = 5000,
+// import RLP from 'rlp';
+import { SecureTrie, LevelDB } from '@ethereumjs/trie'
+import { Level } from 'level'
+// import { Account, bufferToHex } from '@ethereumjs/util'
+// import RLP from 'rlp'
+
+const trie = new SecureTrie({ db: new LevelDB(new Level('MY_TRIE_DB_LOCATION')) })
+
+export async function main() {
+  await trie.put(Buffer.from('test'), Buffer.from('one'))
+  const proof = await SecureTrie.createProof(trie, Buffer.from('test'))
+  const value = await SecureTrie.verifyProof(trie.root, Buffer.from('test'), proof)
+  console.log(value.toString())
 }
 
-/**
- * Returns a Promise<string> that resolves after a given time.
- *
- * @param {string} name - A name.
- * @param {number=} [delay=Delays.Medium] - A number of milliseconds to delay resolution of the Promise.
- * @returns {Promise<string>}
- */
-function delayedHello(
-  name: string,
-  delay: number = Delays.Medium,
-): Promise<string> {
-  return new Promise((resolve: (value?: string) => void) =>
-    setTimeout(() => resolve(`Hello, ${name}`), delay),
-  );
-}
-
-// Below are examples of using ESLint errors suppression
-// Here it is suppressing a missing return type definition for the greeter function.
-
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export async function greeter(name: string) {
-  return await delayedHello(name, Delays.Long);
-}
+main()
